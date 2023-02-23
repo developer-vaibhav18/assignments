@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomUserRepository {
      public User updateMoneyOfUserByEmail(String email, float money);
-     public User addContestIdByEmail(String email, int id);
+     public User UpdateContestIdArrayOfUserByEmailDTO(String email, int id);
      public String updateUser(User user);
 }

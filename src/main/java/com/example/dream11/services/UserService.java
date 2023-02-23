@@ -49,10 +49,10 @@ public class UserService {
     public String updateUser(User user) {
         return customUserRepository.updateUser(user);
     }
-    public User updateMoneyOfUserByEmail(String email, float money) {
-        return customUserRepository.updateMoneyOfUserByEmail(email, money);
+    public User updateMoneyOfUserByEmail(String email, float newMoney) {
+        return customUserRepository.updateMoneyOfUserByEmail(email, newMoney);
     }
-    public User addContestIdByEmail(String email, Integer contestId) {
-        return customUserRepository.addContestIdByEmail(email, contestId);
+    public User UpdateContestIdArrayOfUserByEmailDTO(String email, Integer contestId) {
+        return customUserRepository.UpdateContestIdArrayOfUserByEmailDTO(email, contestId);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.dream11.controller;
 
+import com.example.dream11.DTO.request.UpdateContestIdArrayOfUserByEmailDTO;
+import com.example.dream11.DTO.request.UpdateMoneyOfUserByEmailDTO;
 import com.example.dream11.models.User;
 import com.example.dream11.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +52,15 @@ public class UserController {
     }
 
     @PutMapping("/updateMoneyOfUser")
-    public User updateMoneyOfUser(@RequestParam String email, @RequestParam float newMoney) {
-        return userService.updateMoneyOfUserByEmail(email, newMoney);
+    public User updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByEmailDTO updateMoneyOfUserByEmailDTO) {
+        return userService.updateMoneyOfUserByEmail(updateMoneyOfUserByEmailDTO.getEmail(),
+                updateMoneyOfUserByEmailDTO.getNewMoney());
     }
 
     @PutMapping("/addContestIdToUser")
-    public User addContestIdToUser(@RequestParam String email, @RequestParam int contestId) {
-        return userService.addContestIdByEmail(email, contestId);
+    public User addContestIdToUser(@RequestBody UpdateContestIdArrayOfUserByEmailDTO updateContestIdArrayOfUserByEmailDTO) {
+        return userService.UpdateContestIdArrayOfUserByEmailDTO(updateContestIdArrayOfUserByEmailDTO.getEmail(),
+                updateContestIdArrayOfUserByEmailDTO.getContestId());
     }
 
     @PutMapping("/updateUser")

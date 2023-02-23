@@ -17,16 +17,16 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     @Autowired
     MongoTemplate mongoTemplate;
     @Override
-    public User updateMoneyOfUserByEmail(String email, float money) {
+    public User updateMoneyOfUserByEmail(String email, float newMoney) {
         Query query = new Query(Criteria.where("email").is(email));
-        Update updateDefinition = new Update().set("money", money);
+        Update updateDefinition = new Update().set("money", newMoney);
         FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions().returnNew(true);
         User user = mongoTemplate.findAndModify(query, updateDefinition, findAndModifyOptions, User.class);
         if (user == null) System.out.println("No user found!");
         return user;
     }
     @Override
-    public User addContestIdByEmail(String email, int contestId) {
+    public User UpdateContestIdArrayOfUserByEmailDTO(String email, int contestId) {
         Query query = new Query(Criteria.where("email").is(email));
         Update updateDefinition = new Update().push("contestIdsInWhichUserParticipated", contestId);
         FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions().returnNew(true);
