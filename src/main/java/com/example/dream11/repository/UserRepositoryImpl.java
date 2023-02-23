@@ -1,6 +1,5 @@
 package com.example.dream11.repository;
 
-import com.example.dream11.DTO.response.ResponseDTO;
 import com.example.dream11.models.User;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Repository
 @Primary
-public class CustomUserRepositoryImpl implements CustomUserRepository {
+public class UserRepositoryImpl implements UserRepository {
     @Autowired
     MongoTemplate mongoTemplate;
     @Override

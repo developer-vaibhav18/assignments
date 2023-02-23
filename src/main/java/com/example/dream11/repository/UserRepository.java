@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface CustomUserRepository {
+public interface UserRepository {
      public User updateMoneyOfUserByEmail(String email, float money);
      public User UpdateContestIdArrayOfUserByEmailDTO(String email, int id);
      public UpdateResult updateUser(User user);
