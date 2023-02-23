@@ -16,7 +16,6 @@ public class User {
     @Id
     private int userId;
     @NonNull
-//    @Unique
     @Indexed(unique = true)
     private String email;
     @NonNull

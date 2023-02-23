@@ -1,6 +1,5 @@
-package com.example.dream11.DTO.response;
+package com.example.dream11.DTO.request;
 
-import com.example.dream11.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDTO {
+public class UserRequestDTO {
     private int userId;
     private String email;
     private String name;

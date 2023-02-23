@@ -1,17 +1,17 @@
 package com.example.dream11.controller;
 
-import com.example.dream11.DTO.request.UpdateContestIdArrayOfUserByEmailDTO;
-import com.example.dream11.DTO.request.UpdateMoneyOfUserByEmailDTO;
+import com.example.dream11.DTO.request.ListOfUserRequestDTO;
+import com.example.dream11.DTO.request.UpdateContestIdArrayOfUserByEmailRequestDTO;
+import com.example.dream11.DTO.request.UpdateMoneyOfUserByEmailRequestDTO;
+import com.example.dream11.DTO.request.UserRequestDTO;
 import com.example.dream11.DTO.response.ResponseDTO;
-import com.example.dream11.DTO.response.UserResponseDTO;
 import com.example.dream11.models.User;
 import com.example.dream11.services.UserService;
-import com.mongodb.client.result.DeleteResult;
+import com.example.dream11.util.ConvertorsFromDTOsToObject;
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,80 +19,141 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+
+    /**
+     *
+     * @return All the users
+     *
+     */
     @GetMapping("/getAllUsers")
     public ResponseDTO getAllUsers() {
+        ResponseDTO responseDTO = new ResponseDTO();
         List<User> users = userService.getAllUsers();
-        List<UserResponseDTO> userResponseDTOs = new ArrayList<UserResponseDTO>();
-        for (User user : users) {
-            userResponseDTOs.add(new UserResponseDTO().convertUserToUserResponseDTO(user));
-        }
-        return new ResponseDTO(true, false, 200, null, userResponseDTOs);
+        responseDTO.setSuccessResponseDTO(users);
+        return responseDTO;
     }
+
+    /**
+     * @param userRequestDTO
+     * userRequestDTO accept all the data required to make a User object.
+     * UserRequestDTO have email, name, money and arrayOfContestIds
+     * @return ResponseDTO here will have information of added user.
+     *
+     */
     @PostMapping("/addUser")
-    public ResponseDTO addUser(@RequestBody User user) {
-        return new ResponseDTO(true, false, 200, null,
-                new UserResponseDTO().convertUserToUserResponseDTO(userService.addUser(user)));
+    public ResponseDTO addUser(@RequestBody UserRequestDTO userRequestDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        User user = ConvertorsFromDTOsToObject.convertorFromUserRequestDTOToUser(userRequestDTO);
+//        System.out.println(user);
+        User addedUser = userService.addUser(user);
+        responseDTO.setSuccessResponseDTO(addedUser);
+        return responseDTO;
     }
+
+    /**
+     *
+     * @param listOfUserRequestDTO
+     * @return ResponseDTO here will contain a collection of users got added
+     *
+     */
     @PostMapping("/addMultipleUsers")
-    public ResponseDTO addMultipleUsers(@RequestBody List<User> users) {
+    public ResponseDTO addMultipleUsers(@RequestBody ListOfUserRequestDTO listOfUserRequestDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        List<User> users = ConvertorsFromDTOsToObject.convertorFromListOfUserRequestDTOToListOfUser(listOfUserRequestDTO);
         Collection<User> addedUsers = userService.addMultipleUsers(users);
-        List<UserResponseDTO> userResponseDTOs = new ArrayList<UserResponseDTO>();
-        for (User user : addedUsers) {
-            userResponseDTOs.add(new UserResponseDTO().convertUserToUserResponseDTO(user));
-        }
-        return new ResponseDTO(true, false, 200, null, userResponseDTOs);
+        responseDTO.setSuccessResponseDTO(addedUsers);
+        return responseDTO;
     }
+
+    /**
+     *
+     * @return ResponseDTO here will return DeleteResult that contains count of all users deleted.
+     */
     @DeleteMapping("/deleteAllUsers")
     public ResponseDTO deleteAllUsers() {
-        return new ResponseDTO(true, false, 200, null,
-                userService.deleteAllUsers());
-    }
-    @GetMapping("/getUserByEmail")
-    public ResponseDTO getUserByEmail(@RequestBody String email) {
-        email.trim();
-        return new ResponseDTO(true, false, 200, null,
-                new UserResponseDTO().convertUserToUserResponseDTO(userService.getUserByEmail(email)));
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setSuccessResponseDTO(userService.deleteAllUsers());
+        return responseDTO;
     }
 
-    @DeleteMapping("/deleteUserByEmail")
-    public ResponseDTO deleteUserByEmail(@RequestBody String email) {
-        email.trim();
-        return new ResponseDTO(true, false, 200, null,
-                userService.deleteUserByEmail(email));
+    /**
+     *
+     * @param id it is userId to be found
+     * @return user having userId that is in the param
+     */
+    @GetMapping("/getUserById")
+    public ResponseDTO getUserById(@RequestParam int id) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        User user = userService.getUserByUserId(id);
+        responseDTO.setSuccessResponseDTO(user);
+        return responseDTO;
     }
 
+    /**
+     *
+     * @param id it is the userId of user who has to deleted
+     * @return delete user with given userId
+     */
+    @DeleteMapping("/deleteUserById")
+    public ResponseDTO deleteUserById(@RequestParam Integer id) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setSuccessResponseDTO(userService.deleteUserByUserId(id));
+        return responseDTO;
+    }
+
+    /**
+     * This method updates money of user with given userId.
+     * @param updateMoneyOfUserByEmailRequestDTO contains email id of the user whose money needs to be updated
+     * @return ResponseDTO here contains the user whose money is updated
+     */
     @PutMapping("/updateMoneyOfUser")
-    public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByEmailDTO updateMoneyOfUserByEmailDTO) {
-        User user = userService.updateMoneyOfUserByEmail(updateMoneyOfUserByEmailDTO.getEmail(),
-                updateMoneyOfUserByEmailDTO.getNewMoney());
+    public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByEmailRequestDTO updateMoneyOfUserByEmailRequestDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        User user = userService.updateMoneyOfUserById(updateMoneyOfUserByEmailRequestDTO.getUserId(),
+                updateMoneyOfUserByEmailRequestDTO.getNewMoney());
         if (user == null) {
-            return new ResponseDTO<UserResponseDTO>(false, true, 404, "User not found",
-                    null);
+            responseDTO.setErrorResponseDTO("User not found!!");
+        } else {
+            responseDTO.setSuccessResponseDTO(user);
         }
-        return new ResponseDTO<>(true, false, 200, null,
-                new UserResponseDTO().convertUserToUserResponseDTO(user));
+        return responseDTO;
     }
 
+    /**
+     * This method add given contest Id to contestIdArray of user
+     * @param updateContestIdArrayOfUserByEmailDTO
+     * @return ResponseDTO return user whose contestId array got updated
+     */
     @PutMapping("/addContestIdToUser")
-    public ResponseDTO UpdateContestIdArrayOfUserByEmail(@RequestBody UpdateContestIdArrayOfUserByEmailDTO updateContestIdArrayOfUserByEmailDTO) {
-        User user = userService.UpdateContestIdArrayOfUserByEmail(updateContestIdArrayOfUserByEmailDTO.getEmail(),
+    public ResponseDTO UpdateContestIdArrayOfUser(@RequestBody UpdateContestIdArrayOfUserByEmailRequestDTO
+                                                                     updateContestIdArrayOfUserByEmailDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        User user = userService.UpdateContestIdArrayOfUserById(updateContestIdArrayOfUserByEmailDTO.getUserId(),
                 updateContestIdArrayOfUserByEmailDTO.getContestId());
         if (user == null) {
-            return new ResponseDTO<>(false, true, 404, "User not found",
-                    null);
+            responseDTO.setErrorResponseDTO("User not found!!");
+        } else {
+            responseDTO.setSuccessResponseDTO(user);
         }
-        return new ResponseDTO<>(true, false, 200, null,
-                new UserResponseDTO().convertUserToUserResponseDTO(user));
+        return responseDTO;
     }
 
+    /**
+     * This method update user object using upsert method
+     * @param user
+     * @return ResponseDTO return a String indicating whether new data is inserted or existing is updated.
+     */
     @PutMapping("/updateUser")
-    public ResponseDTO<String> updateUser(@RequestBody User user) {
+    public ResponseDTO updateUser(@RequestBody User user) {
+        ResponseDTO responseDTO = new ResponseDTO<>();
         UpdateResult updateResult = userService.updateUser(user);
         if (updateResult.getUpsertedId() == null) {
-            return new ResponseDTO<String>(true, false, 200,null,
-                    "No new document is inserted");
+            responseDTO.setSuccessResponseDTO(new String("Data updated, no new document is inserted"));
         }
-        return new ResponseDTO<String>(true, false, 200,null,
-                "New document is inserted with upsertedId = " + updateResult.getUpsertedId());
+        else {
+            responseDTO.setSuccessResponseDTO(
+                    new String("New document is inserted with upsertedId = " + updateResult.getUpsertedId()));
+        }
+        return responseDTO;
     }
 }

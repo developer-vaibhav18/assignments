@@ -13,41 +13,40 @@ import java.util.List;
 @Service
 public class UserService {
     @Autowired
-    private UserRepository customUserRepository;
+    private UserRepository userRepository;
     public List<User> getAllUsers() {
-        List<User> users = customUserRepository.getAllUsers();
+        List<User> users = userRepository.getAllUsers();
         return users;
     }
     public User addUser(User user) {
-        return customUserRepository.addUser(user);
+        return userRepository.addUser(user);
     }
 
     public Collection<User> addMultipleUsers(List<User> users) {
-        Collection<User> addedUsers = customUserRepository.addMultipleUsers(users);
+        Collection<User> addedUsers = userRepository.addMultipleUsers(users);
         return addedUsers;
     }
 
     public DeleteResult deleteAllUsers() {
-        return customUserRepository.deleteAllUsers();
+        return userRepository.deleteAllUsers();
     }
 
-    public User getUserByEmail(String email) {
-        return customUserRepository.getUserByEmail(email);
+    public User getUserByUserId(int userId) {
+        return userRepository.getUserByUserId(userId);
     }
 
-    public DeleteResult deleteUserByEmail(String email) {
-        return customUserRepository.deleteUserByEmail(email);
+    public DeleteResult deleteUserByUserId(int userId) {
+        return userRepository.deleteUserByUserId(userId);
     }
 
     public UpdateResult updateUser(User user) {
-        return customUserRepository.updateUser(user);
+        return userRepository.updateUser(user);
 
     }
-    public User updateMoneyOfUserByEmail(String email, float newMoney) {
-        return customUserRepository.updateMoneyOfUserByEmail(email, newMoney);
+    public User updateMoneyOfUserById(int userId, float newMoney) {
+        return userRepository.updateMoneyOfUserByUserId(userId, newMoney);
     }
-    public User UpdateContestIdArrayOfUserByEmail(String email, Integer contestId) {
-        return customUserRepository.UpdateContestIdArrayOfUserByEmailDTO(email, contestId);
-
+    public User UpdateContestIdArrayOfUserById(int userId, Integer contestId) {
+        return userRepository.UpdateContestIdArrayOfUserByUserId(userId, contestId);
     }
 }

@@ -21,8 +21,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     MongoTemplate mongoTemplate;
     @Override
-    public User updateMoneyOfUserByEmail(String email, float newMoney) {
-        Query query = new Query(Criteria.where("email").is(email));
+    public User updateMoneyOfUserByUserId(int userId, float newMoney) {
+        Query query = new Query(Criteria.where("email").is(userId));
         Update updateDefinition = new Update().set("money", newMoney
         );
         FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions().returnNew(true);
@@ -30,8 +30,8 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
     @Override
-    public User UpdateContestIdArrayOfUserByEmailDTO(String email, int contestId) {
-        Query query = new Query(Criteria.where("email").is(email));
+    public User UpdateContestIdArrayOfUserByUserId(int userId, int contestId) {
+        Query query = new Query(Criteria.where("email").is(userId));
         Update updateDefinition = new Update().push("contestIdsInWhichUserParticipated", contestId);
         FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions().returnNew(true);
         User user = mongoTemplate.findAndModify(query, updateDefinition, findAndModifyOptions, User.class);
@@ -55,8 +55,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        Query query = new Query(Criteria.where("email").is(email));
+    public User getUserByUserId(int userId) {
+        Query query = new Query(Criteria.where("userId").is(userId));
+        System.out.println(query);
         return mongoTemplate.findOne(query, User.class);
     }
 
@@ -77,8 +78,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public DeleteResult deleteUserByEmail(String email) {
-        Query query = new Query(Criteria.where("email").is(email));
+    public DeleteResult deleteUserByUserId(int userId) {
+        Query query = new Query(Criteria.where("userId").is(userId));
         return mongoTemplate.remove(query, User.class);
     }
 }
