@@ -2,8 +2,11 @@ package com.example.dream11.controller;
 
 import com.example.dream11.DTO.request.UpdateContestIdArrayOfUserByEmailDTO;
 import com.example.dream11.DTO.request.UpdateMoneyOfUserByEmailDTO;
+import com.example.dream11.DTO.response.ResponseDTO;
+import com.example.dream11.DTO.response.UserResponseDTO;
 import com.example.dream11.models.User;
 import com.example.dream11.services.UserService;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,57 +17,47 @@ public class UserController {
     @Autowired
     UserService userService;
     @GetMapping("/getAllUsers")
-    public List<User> getAllUsers() {
+    public ResponseDTO getAllUsers() {
         return userService.getAllUsers();
     }
     @PostMapping("/addUser")
-    public void addUser(@RequestBody User user) {
-        userService.addUser(user);
-        return;
+    public ResponseDTO addUser(@RequestBody User user) {
+        return userService.addUser(user);
     }
     @PostMapping("/addMultipleUsers")
-    public void addMultipleUsers(@RequestBody List<User> users) {
-        userService.addMultipleUsers(users);
-        return;
+    public ResponseDTO addMultipleUsers(@RequestBody List<User> users) {
+        return userService.addMultipleUsers(users);
     }
     @DeleteMapping("/deleteAllUsers")
-    public void deleteAllUsers() {
-        userService.deleteAllUsers();
+    public ResponseDTO deleteAllUsers() {
+        return userService.deleteAllUsers();
     }
     @GetMapping("/getUserByEmail")
-    public User getUserByEmail(@RequestBody String email) {
-//        System.out.println(email);
+    public ResponseDTO getUserByEmail(@RequestBody String email) {
         email.trim();
-        try {
-            User user = userService.findUserByEmail(email);
-//            System.out.println(user);
-            return user;
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
+        return userService.getUserByEmail(email);
     }
 
-    @DeleteMapping("/deleteUserByEmail/{}")
-    public User deleteUserByEmail(@RequestBody String email) {
+    @DeleteMapping("/deleteUserByEmail")
+    public ResponseDTO deleteUserByEmail(@RequestBody String email) {
         email.trim();
         return userService.deleteUserByEmail(email);
     }
 
     @PutMapping("/updateMoneyOfUser")
-    public User updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByEmailDTO updateMoneyOfUserByEmailDTO) {
+    public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByEmailDTO updateMoneyOfUserByEmailDTO) {
         return userService.updateMoneyOfUserByEmail(updateMoneyOfUserByEmailDTO.getEmail(),
                 updateMoneyOfUserByEmailDTO.getNewMoney());
     }
 
     @PutMapping("/addContestIdToUser")
-    public User addContestIdToUser(@RequestBody UpdateContestIdArrayOfUserByEmailDTO updateContestIdArrayOfUserByEmailDTO) {
-        return userService.UpdateContestIdArrayOfUserByEmailDTO(updateContestIdArrayOfUserByEmailDTO.getEmail(),
+    public ResponseDTO UpdateContestIdArrayOfUserByEmail(@RequestBody UpdateContestIdArrayOfUserByEmailDTO updateContestIdArrayOfUserByEmailDTO) {
+        return userService.UpdateContestIdArrayOfUserByEmail(updateContestIdArrayOfUserByEmailDTO.getEmail(),
                 updateContestIdArrayOfUserByEmailDTO.getContestId());
     }
 
     @PutMapping("/updateUser")
-    public String updateUser(@RequestBody User user) {
+    public ResponseDTO<String> updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
 }
