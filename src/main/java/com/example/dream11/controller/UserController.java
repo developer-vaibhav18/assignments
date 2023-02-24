@@ -1,8 +1,8 @@
 package com.example.dream11.controller;
 
 import com.example.dream11.DTO.request.ListOfUserRequestDTO;
-import com.example.dream11.DTO.request.UpdateContestIdArrayOfUserByEmailRequestDTO;
-import com.example.dream11.DTO.request.UpdateMoneyOfUserByEmailRequestDTO;
+import com.example.dream11.DTO.request.UpdateContestIdArrayOfUserByIdRequestDTO;
+import com.example.dream11.DTO.request.UpdateMoneyOfUserByIdRequestDTO;
 import com.example.dream11.DTO.request.UserRequestDTO;
 import com.example.dream11.DTO.response.ResponseDTO;
 import com.example.dream11.models.User;
@@ -95,7 +95,7 @@ public class UserController {
      * @return delete user with given userId
      */
     @DeleteMapping("/deleteUserById")
-    public ResponseDTO deleteUserById(@RequestParam Integer id) {
+    public ResponseDTO deleteUserById(@RequestParam int id) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setSuccessResponseDTO(userService.deleteUserByUserId(id));
         return responseDTO;
@@ -107,7 +107,7 @@ public class UserController {
      * @return ResponseDTO here contains the user whose money is updated
      */
     @PutMapping("/updateMoneyOfUser")
-    public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByEmailRequestDTO updateMoneyOfUserByEmailRequestDTO) {
+    public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByIdRequestDTO updateMoneyOfUserByEmailRequestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         User user = userService.updateMoneyOfUserById(updateMoneyOfUserByEmailRequestDTO.getUserId(),
                 updateMoneyOfUserByEmailRequestDTO.getNewMoney());
@@ -125,7 +125,7 @@ public class UserController {
      * @return ResponseDTO return user whose contestId array got updated
      */
     @PutMapping("/addContestIdToUser")
-    public ResponseDTO UpdateContestIdArrayOfUser(@RequestBody UpdateContestIdArrayOfUserByEmailRequestDTO
+    public ResponseDTO updateContestIdArrayOfUser(@RequestBody UpdateContestIdArrayOfUserByIdRequestDTO
                                                                      updateContestIdArrayOfUserByEmailDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         User user = userService.UpdateContestIdArrayOfUserById(updateContestIdArrayOfUserByEmailDTO.getUserId(),

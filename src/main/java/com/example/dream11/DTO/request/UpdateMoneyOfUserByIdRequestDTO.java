@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateContestIdArrayOfUserByEmailRequestDTO {
+public class UpdateMoneyOfUserByIdRequestDTO {
     private int userId;
-    private int contestId;
+    private float newMoney;
 }
