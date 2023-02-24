@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateMoneyOfUserByIdRequestDTO {
-    private int userId;
+
+    private int id;
     private float newMoney;
 }

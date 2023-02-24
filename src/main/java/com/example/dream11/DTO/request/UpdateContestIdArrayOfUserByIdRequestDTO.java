@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateContestIdArrayOfUserByIdRequestDTO {
-    private int userId;
+
+    private int id;
     private int contestId;
 }

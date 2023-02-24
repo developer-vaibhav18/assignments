@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO {
+
     private int userId;
     private String email;
     private String name;

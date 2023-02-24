@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInAParticularContest {
+
     private int id;
     private int contestId;
     private int userId;

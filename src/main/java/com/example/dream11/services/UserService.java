@@ -12,12 +12,15 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
+
     public List<User> getAllUsers() {
         List<User> users = userRepository.getAllUsers();
         return users;
     }
+
     public User addUser(User user) {
         return userRepository.addUser(user);
     }
@@ -43,10 +46,12 @@ public class UserService {
         return userRepository.updateUser(user);
 
     }
+
     public User updateMoneyOfUserById(int userId, float newMoney) {
         return userRepository.updateMoneyOfUserByUserId(userId, newMoney);
     }
-    public User UpdateContestIdArrayOfUserById(int userId, Integer contestId) {
-        return userRepository.UpdateContestIdArrayOfUserByUserId(userId, contestId);
+
+    public User updateContestIdArrayOfUserById(int userId, int contestId) {
+        return userRepository.updateContestIdArrayOfUserByUserId(userId, contestId);
     }
 }

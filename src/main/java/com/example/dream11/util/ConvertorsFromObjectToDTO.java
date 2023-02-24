@@ -8,13 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertorsFromObjectToDTO {
+
     public static UserResponseDTO convertFromUserToUserResponseDTO(User user) {
-        return new UserResponseDTO(user.getUserId(),
-                                   user.getEmail(),
-                                   user.getName(),
-                                   user.getMoney(),
-                                   user.getContestIdsInWhichUserParticipated());
+        return new UserResponseDTO(user.getUserId(), user.getEmail(), user.getName(), user.getMoney(),
+                user.getContestIdsInWhichUserParticipated());
     }
+
     public static ListOfUserResponseDTO convertFromListOfUserToListOfUserResponseDTO(List<User> users) {
         List<UserResponseDTO> userResponseDTOs = new ArrayList<>();
         for (User user : users) {

@@ -17,13 +17,12 @@ import java.util.List;
 
 @RestController
 public class UserController {
+
     @Autowired
     UserService userService;
 
     /**
-     *
      * @return All the users
-     *
      */
     @GetMapping("/getAllUsers")
     public ResponseDTO getAllUsers() {
@@ -34,39 +33,35 @@ public class UserController {
     }
 
     /**
-     * @param userRequestDTO
-     * userRequestDTO accept all the data required to make a User object.
-     * UserRequestDTO have email, name, money and arrayOfContestIds
+     * @param userRequestDTO userRequestDTO accept all the data required to make a User object.
+     *                       UserRequestDTO have email, name, money and arrayOfContestIds
      * @return ResponseDTO here will have information of added user.
-     *
      */
     @PostMapping("/addUser")
     public ResponseDTO addUser(@RequestBody UserRequestDTO userRequestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         User user = ConvertorsFromDTOsToObject.convertorFromUserRequestDTOToUser(userRequestDTO);
-//        System.out.println(user);
+        //        System.out.println(user);
         User addedUser = userService.addUser(user);
         responseDTO.setSuccessResponseDTO(addedUser);
         return responseDTO;
     }
 
     /**
-     *
      * @param listOfUserRequestDTO
      * @return ResponseDTO here will contain a collection of users got added
-     *
      */
     @PostMapping("/addMultipleUsers")
     public ResponseDTO addMultipleUsers(@RequestBody ListOfUserRequestDTO listOfUserRequestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
-        List<User> users = ConvertorsFromDTOsToObject.convertorFromListOfUserRequestDTOToListOfUser(listOfUserRequestDTO);
+        List<User> users = ConvertorsFromDTOsToObject.convertorFromListOfUserRequestDTOToListOfUser(
+                listOfUserRequestDTO);
         Collection<User> addedUsers = userService.addMultipleUsers(users);
         responseDTO.setSuccessResponseDTO(addedUsers);
         return responseDTO;
     }
 
     /**
-     *
      * @return ResponseDTO here will return DeleteResult that contains count of all users deleted.
      */
     @DeleteMapping("/deleteAllUsers")
@@ -77,7 +72,6 @@ public class UserController {
     }
 
     /**
-     *
      * @param id it is userId to be found
      * @return user having userId that is in the param
      */
@@ -90,7 +84,6 @@ public class UserController {
     }
 
     /**
-     *
      * @param id it is the userId of user who has to deleted
      * @return delete user with given userId
      */
@@ -103,14 +96,15 @@ public class UserController {
 
     /**
      * This method updates money of user with given userId.
-     * @param updateMoneyOfUserByEmailRequestDTO contains email id of the user whose money needs to be updated
+     *
+     * @param updateMoneyOfUserByIdRequestDTO contains email id of the user whose money needs to be updated
      * @return ResponseDTO here contains the user whose money is updated
      */
     @PutMapping("/updateMoneyOfUser")
-    public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByIdRequestDTO updateMoneyOfUserByEmailRequestDTO) {
+    public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByIdRequestDTO updateMoneyOfUserByIdRequestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
-        User user = userService.updateMoneyOfUserById(updateMoneyOfUserByEmailRequestDTO.getUserId(),
-                updateMoneyOfUserByEmailRequestDTO.getNewMoney());
+        User user = userService.updateMoneyOfUserById(updateMoneyOfUserByIdRequestDTO.getId(),
+                updateMoneyOfUserByIdRequestDTO.getNewMoney());
         if (user == null) {
             responseDTO.setErrorResponseDTO("User not found!!");
         } else {
@@ -121,15 +115,16 @@ public class UserController {
 
     /**
      * This method add given contest Id to contestIdArray of user
-     * @param updateContestIdArrayOfUserByEmailDTO
+     *
+     * @param updateContestIdArrayOfUserByIdDTO
      * @return ResponseDTO return user whose contestId array got updated
      */
     @PutMapping("/addContestIdToUser")
-    public ResponseDTO updateContestIdArrayOfUser(@RequestBody UpdateContestIdArrayOfUserByIdRequestDTO
-                                                                     updateContestIdArrayOfUserByEmailDTO) {
+    public ResponseDTO updateContestIdArrayOfUser(
+            @RequestBody UpdateContestIdArrayOfUserByIdRequestDTO updateContestIdArrayOfUserByIdDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
-        User user = userService.UpdateContestIdArrayOfUserById(updateContestIdArrayOfUserByEmailDTO.getUserId(),
-                updateContestIdArrayOfUserByEmailDTO.getContestId());
+        User user = userService.updateContestIdArrayOfUserById(updateContestIdArrayOfUserByIdDTO.getId(),
+                updateContestIdArrayOfUserByIdDTO.getContestId());
         if (user == null) {
             responseDTO.setErrorResponseDTO("User not found!!");
         } else {
@@ -140,6 +135,7 @@ public class UserController {
 
     /**
      * This method update user object using upsert method
+     *
      * @param user
      * @return ResponseDTO return a String indicating whether new data is inserted or existing is updated.
      */
@@ -149,8 +145,7 @@ public class UserController {
         UpdateResult updateResult = userService.updateUser(user);
         if (updateResult.getUpsertedId() == null) {
             responseDTO.setSuccessResponseDTO(new String("Data updated, no new document is inserted"));
-        }
-        else {
+        } else {
             responseDTO.setSuccessResponseDTO(
                     new String("New document is inserted with upsertedId = " + updateResult.getUpsertedId()));
         }

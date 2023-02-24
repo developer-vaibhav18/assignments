@@ -10,7 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {
-    private int userId;
+
+    private int id;
     private String email;
     private String name;
     private float money;

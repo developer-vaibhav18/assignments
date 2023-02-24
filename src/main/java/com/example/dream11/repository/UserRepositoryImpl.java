@@ -18,33 +18,34 @@ import java.util.List;
 @Repository
 @Primary
 public class UserRepositoryImpl implements UserRepository {
+
     @Autowired
     MongoTemplate mongoTemplate;
+
     @Override
     public User updateMoneyOfUserByUserId(int userId, float newMoney) {
-        Query query = new Query(Criteria.where("email").is(userId));
-        Update updateDefinition = new Update().set("money", newMoney
-        );
+        Query query = new Query(Criteria.where("userId").is(userId));
+        Update updateDefinition = new Update().set("money", newMoney);
         FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions().returnNew(true);
         User user = mongoTemplate.findAndModify(query, updateDefinition, findAndModifyOptions, User.class);
         return user;
     }
+
     @Override
-    public User UpdateContestIdArrayOfUserByUserId(int userId, int contestId) {
-        Query query = new Query(Criteria.where("email").is(userId));
+    public User updateContestIdArrayOfUserByUserId(int userId, int contestId) {
+        Query query = new Query(Criteria.where("userId").is(userId));
         Update updateDefinition = new Update().push("contestIdsInWhichUserParticipated", contestId);
         FindAndModifyOptions findAndModifyOptions = new FindAndModifyOptions().returnNew(true);
         User user = mongoTemplate.findAndModify(query, updateDefinition, findAndModifyOptions, User.class);
-        if (user == null) System.out.println("No user found!");
         return user;
     }
+
     @Override
     public UpdateResult updateUser(User user) {
         Query query = new Query(Criteria.where("userId").is(user.getUserId()));
-        Update updateDefinition = new Update().set("name", user.getName())
-                                              .set("email", user.getEmail())
-                                              .set("money", user.getMoney())
-                                .set("contestIdsInWhichUserParticipated", user.getContestIdsInWhichUserParticipated());
+        Update updateDefinition = new Update().set("name", user.getName()).set("email", user.getEmail())
+                                              .set("money", user.getMoney()).set("contestIdsInWhichUserParticipated",
+                        user.getContestIdsInWhichUserParticipated());
         UpdateResult updateResult = mongoTemplate.upsert(query, updateDefinition, User.class);
         return updateResult;
     }

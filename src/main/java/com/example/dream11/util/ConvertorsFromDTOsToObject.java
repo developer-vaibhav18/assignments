@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertorsFromDTOsToObject {
+
     public static User convertorFromUserRequestDTOToUser(UserRequestDTO userRequestDTO) {
+        if (userRequestDTO.getId() == 0) return null;
         User user = new User();
-        user.setUserId(userRequestDTO.getUserId());
+        user.setUserId(userRequestDTO.getId());
         user.setEmail(userRequestDTO.getEmail());
         user.setName(userRequestDTO.getName());
         user.setMoney(userRequestDTO.getMoney());
@@ -20,7 +22,8 @@ public class ConvertorsFromDTOsToObject {
 
     public static List<User> convertorFromListOfUserRequestDTOToListOfUser(ListOfUserRequestDTO listOfUserRequestDTO) {
         List<User> users = new ArrayList<User>();
-        for (UserRequestDTO userRequestDTO : listOfUserRequestDTO.getUserRequestDTOs()) {
+        List<UserRequestDTO> userRequestDTOs = listOfUserRequestDTO.getUserRequestDTOs();
+        for (UserRequestDTO userRequestDTO : userRequestDTOs) {
             users.add(convertorFromUserRequestDTOToUser(userRequestDTO));
         }
         return users;

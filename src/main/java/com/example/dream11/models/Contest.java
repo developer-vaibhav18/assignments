@@ -12,6 +12,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Document("Contest")
 public class Contest {
+
     private int contestId;
     private String contestName;
     private int matchId;

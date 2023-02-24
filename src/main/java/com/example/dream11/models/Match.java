@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Document("Match")
 public class Match {
+
     private int matchID;
     private int team1Id, team2Id;
     private List<Integer> idsOfAllTheContestInThisMatch;

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Team {
+
     private int teamId;
     private ArrayList<Integer> playerIds;
     private String teamName;

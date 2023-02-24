@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Document("users")
 public class User {
+
     @Id
     private int userId;
     @NonNull
@@ -22,4 +23,5 @@ public class User {
     private String name;
     private float money;
     private List<Integer> contestIdsInWhichUserParticipated;
+
 }

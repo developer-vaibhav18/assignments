@@ -8,11 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseDTO<T> {
+
     private boolean success;
     private boolean error;
     private int statusCode;
     private String errorMessage;
     private T data;
+
     public void setSuccessResponseDTO(T data) {
         success = true;
         error = false;
@@ -20,6 +22,7 @@ public class ResponseDTO<T> {
         errorMessage = null;
         this.data = data;
     }
+
     public void setErrorResponseDTO(String errorMessage) {
         success = false;
         error = true;
