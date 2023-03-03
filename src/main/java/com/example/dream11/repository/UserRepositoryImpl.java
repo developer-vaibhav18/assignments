@@ -1,6 +1,7 @@
 package com.example.dream11.repository;
 
 import com.example.dream11.models.User;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
 
     @Override
     public User updateMoneyOfUserByUserId(int userId, float newMoney) {
@@ -58,7 +60,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getUserByUserId(int userId) {
         Query query = new Query(Criteria.where("userId").is(userId));
-        System.out.println(query);
         return mongoTemplate.findOne(query, User.class);
     }
 
@@ -84,3 +85,9 @@ public class UserRepositoryImpl implements UserRepository {
         return mongoTemplate.remove(query, User.class);
     }
 }
+
+/**
+ * team - match getTeam
+ * team - createTeam
+ * match
+ */
