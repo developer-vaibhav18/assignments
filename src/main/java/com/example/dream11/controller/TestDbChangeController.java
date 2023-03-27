@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DbController {
+public class TestDbChangeController {
     @Autowired
     DbService dbService;
     @PostMapping("/changeDb")

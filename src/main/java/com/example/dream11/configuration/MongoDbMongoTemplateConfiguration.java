@@ -15,6 +15,6 @@ public class MongoDbMongoTemplateConfiguration {
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(new SimpleMongoClientDatabaseFactory(mongoClient, "test_players"));
+        return new MongoTemplate(new SimpleMongoClientDatabaseFactory(mongoClient, "sample_mflix"));
     }
 }

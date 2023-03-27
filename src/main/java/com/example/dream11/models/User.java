@@ -13,7 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Document("users")
 public class User {
-
     @Id
     private int userId;
     @NonNull

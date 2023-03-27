@@ -1,4 +1,4 @@
-package com.example.dream11.repository;
+package com.example.dream11.repository.mongo;
 
 import com.example.dream11.models.User;
 import com.mongodb.client.result.DeleteResult;

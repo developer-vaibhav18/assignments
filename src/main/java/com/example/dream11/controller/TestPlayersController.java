@@ -1,9 +1,7 @@
 package com.example.dream11.controller;
 
 import com.example.dream11.models.SizeOfArray;
-import com.example.dream11.models.SizeOfArrayWithSkill;
 import com.example.dream11.models.TestPlayers;
-import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

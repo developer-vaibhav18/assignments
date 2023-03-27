@@ -1,7 +1,7 @@
 package com.example.dream11.services;
 
 import com.example.dream11.models.User;
-import com.example.dream11.repository.UserRepository;
+import com.example.dream11.repository.mongo.UserRepository;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
