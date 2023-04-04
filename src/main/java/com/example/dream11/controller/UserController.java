@@ -6,7 +6,7 @@ import com.example.dream11.DTO.request.UpdateMoneyOfUserByIdRequestDTO;
 import com.example.dream11.DTO.request.UserRequestDTO;
 import com.example.dream11.DTO.response.ResponseDTO;
 import com.example.dream11.models.User;
-import com.example.dream11.services.UserService;
+import com.example.dream11.services.UserServiceImpl;
 import com.example.dream11.util.ConvertorsFromDTOsToObject;
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,16 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
 
     /**
      * @return All the users
      */
-    @GetMapping("/getAllUsers")
+    @GetMapping("/get/all")
     public ResponseDTO getAllUsers() {
         ResponseDTO responseDTO = new ResponseDTO();
         List<User> users = userService.getAllUsers();
@@ -37,13 +38,12 @@ public class UserController {
      *                       UserRequestDTO have email, name, money and arrayOfContestIds
      * @return ResponseDTO here will have information of added user.
      */
-    @PostMapping("/addUser")
+    @PostMapping("/create")
     public ResponseDTO addUser(@RequestBody UserRequestDTO userRequestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         User user = ConvertorsFromDTOsToObject.convertorFromUserRequestDTOToUser(userRequestDTO);
-        //        System.out.println(user);
-        User addedUser = userService.addUser(user);
-        responseDTO.setSuccessResponseDTO(addedUser);
+        User createdUser = userService.createUser(user);
+        responseDTO.setSuccessResponseDTO(createdUser);
         return responseDTO;
     }
 
@@ -51,12 +51,12 @@ public class UserController {
      * @param listOfUserRequestDTO
      * @return ResponseDTO here will contain a collection of users got added
      */
-    @PostMapping("/addMultipleUsers")
-    public ResponseDTO addMultipleUsers(@RequestBody ListOfUserRequestDTO listOfUserRequestDTO) {
+    @PostMapping("/create/all")
+    public ResponseDTO createAllUsers(@RequestBody ListOfUserRequestDTO listOfUserRequestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<User> users = ConvertorsFromDTOsToObject.convertorFromListOfUserRequestDTOToListOfUser(
                 listOfUserRequestDTO);
-        Collection<User> addedUsers = userService.addMultipleUsers(users);
+        Collection<User> addedUsers = userService.createAllUsers(users);
         responseDTO.setSuccessResponseDTO(addedUsers);
         return responseDTO;
     }
@@ -64,7 +64,7 @@ public class UserController {
     /**
      * @return ResponseDTO here will return DeleteResult that contains count of all users deleted.
      */
-    @DeleteMapping("/deleteAllUsers")
+    @DeleteMapping("/delete/all")
     public ResponseDTO deleteAllUsers() {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setSuccessResponseDTO(userService.deleteAllUsers());
@@ -75,8 +75,8 @@ public class UserController {
      * @param id it is userId to be found
      * @return user having userId that is in the param
      */
-    @GetMapping("/getUserById")
-    public ResponseDTO getUserById(@RequestParam int id) {
+    @GetMapping("/get/id/{id}")
+    public ResponseDTO getUserById(@PathVariable int id) {
         ResponseDTO responseDTO = new ResponseDTO();
         User user = userService.getUserByUserId(id);
         responseDTO.setSuccessResponseDTO(user);
@@ -87,8 +87,8 @@ public class UserController {
      * @param id it is the userId of user who has to deleted
      * @return delete user with given userId
      */
-    @DeleteMapping("/deleteUserById")
-    public ResponseDTO deleteUserById(@RequestParam int id) {
+    @DeleteMapping("/delete/id/{id}")
+    public ResponseDTO deleteUserById(@PathVariable int id) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setSuccessResponseDTO(userService.deleteUserByUserId(id));
         return responseDTO;
@@ -100,7 +100,7 @@ public class UserController {
      * @param updateMoneyOfUserByIdRequestDTO contains email id of the user whose money needs to be updated
      * @return ResponseDTO here contains the user whose money is updated
      */
-    @PutMapping("/updateMoneyOfUser")
+    @PutMapping("/update/money")
     public ResponseDTO updateMoneyOfUser(@RequestBody UpdateMoneyOfUserByIdRequestDTO updateMoneyOfUserByIdRequestDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         User user = userService.updateMoneyOfUserById(updateMoneyOfUserByIdRequestDTO.getId(),
@@ -119,7 +119,7 @@ public class UserController {
      * @param updateContestIdArrayOfUserByIdDTO
      * @return ResponseDTO return user whose contestId array got updated
      */
-    @PutMapping("/addContestIdToUser")
+    @PutMapping("/update/contestId")
     public ResponseDTO updateContestIdArrayOfUser(
             @RequestBody UpdateContestIdArrayOfUserByIdRequestDTO updateContestIdArrayOfUserByIdDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
@@ -139,7 +139,7 @@ public class UserController {
      * @param user
      * @return ResponseDTO return a String indicating whether new data is inserted or existing is updated.
      */
-    @PutMapping("/updateUser")
+    @PutMapping("/update")
     public ResponseDTO updateUser(@RequestBody User user) {
         ResponseDTO responseDTO = new ResponseDTO<>();
         UpdateResult updateResult = userService.updateUser(user);

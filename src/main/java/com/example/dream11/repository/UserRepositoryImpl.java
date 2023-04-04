@@ -63,12 +63,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User addUser(User user) {
+    public User createUser(User user) {
         return mongoTemplate.save(user);
     }
 
     @Override
-    public Collection<User> addMultipleUsers(List<User> users) {
+    public Collection<User> createAllUsers(List<User> users) {
         return mongoTemplate.insertAll(users);
     }
 

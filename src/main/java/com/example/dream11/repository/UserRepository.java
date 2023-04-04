@@ -21,9 +21,9 @@ public interface UserRepository {
 
     public User getUserByUserId(int userId);
 
-    public User addUser(User user);
+    public User createUser(User user);
 
-    public Collection<User> addMultipleUsers(List<User> users);
+    public Collection<User> createAllUsers(List<User> users);
 
     public DeleteResult deleteAllUsers();
 
