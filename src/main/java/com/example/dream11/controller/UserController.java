@@ -7,7 +7,7 @@ import com.example.dream11.DTO.request.UserRequestDTO;
 import com.example.dream11.DTO.response.ResponseDTO;
 import com.example.dream11.models.User;
 import com.example.dream11.services.UserServiceImpl;
-import com.example.dream11.util.ConvertorsFromDTOsToObject;
+import com.example.dream11.transformers.ConvertorsFromDTOsToObject;
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
